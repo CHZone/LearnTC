@@ -42,6 +42,8 @@ public class HttpServer {
 				response.setRequest(request);
 				response.sendStaticResources();
 				socket.close();// 不能再finally中close
+				
+				shutdown = SHUTDOWN_COMMAND.equals(request.getUri());
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(2);
