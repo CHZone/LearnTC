@@ -14,6 +14,7 @@ public class Request {
 		int i;
 		byte[] buff = new byte[2048];
 		try {
+			// 可以自动扩展？
 			i = inputStream.read(buff);
 		} catch (Exception e) {
 			e.printStackTrace();

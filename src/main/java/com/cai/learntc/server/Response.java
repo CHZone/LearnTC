@@ -25,20 +25,23 @@ public class Response {
 		FileInputStream input = null;
 		try {
 			File file = new File(HttpServer.WEB_ROOT + File.separator + request.getUri());
-			sendHead(outputStream);
 			if (file.exists()) {
 				input = new FileInputStream(file);
 				int ch = input.read(buff, 0, BUFFER_SIZE);
+				sendHead(ResponseStateEnum.OK);
 				while (ch != -1) {
 					outputStream.write(buff, 0, ch);
 					ch = input.read(buff, 0, BUFFER_SIZE);
 				}
 			} else {
-				String errorMessage = "HTTP/1.1 404 File Not Found\r\n" 	
-						+ "Content-Type:text/html"
-						+ "Content-Length:23"
-						+ "\r\n" 
-						+ "<h1>File Not Found</h1>";
+				sendHead(ResponseStateEnum.FILE_NOT_FOUND);
+				String errorMessage = "<html>"
+						+ "<head>"
+						+ "</head>"
+						+ "<body>"
+						+ "<h1>File Not Found</h1>"
+						+ "</body>"
+						+ "</html>";
 				outputStream.write(errorMessage.getBytes());
 			}
 //			outputStream.flush();
@@ -64,9 +67,12 @@ public class Response {
 		return sdf.format(curDate);
 	}
 	
-	private void sendHead(OutputStream outputStream) {
-		String header = "HTTP/1.1 200 OK\r\n"
-				+ "Server: tomedog" 
+	private void sendHead(ResponseStateEnum statusEnum ) {
+		String header = "HTTP/1.1 "
+				+ statusEnum.getStatusCode()
+				+ " "+ statusEnum.getStatusPhrase()
+				+ "\r\n"
+				+ "Server: tomedog\r\n" 
 				+ "Date: "+getGMTDateTime()+"\r\n"
 				+ "Content-Type: text/html;charset=UTF-8\r\n" 
 				+"\r\n";
