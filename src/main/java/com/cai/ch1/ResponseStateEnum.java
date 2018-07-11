@@ -1,12 +1,11 @@
-package com.cai.learntc.server;
+package com.cai.ch1;
 
 public enum ResponseStateEnum {
-	OK(200,"OK"),
-	FILE_NOT_FOUND(404,"File Not Found");
+	OK(200, "OK"), FILE_NOT_FOUND(404, "File Not Found");
 	private int statusCode;
 	private String statusPhrase;
-	
-	private ResponseStateEnum(Integer statusCode, String statusPhrase){
+
+	private ResponseStateEnum(Integer statusCode, String statusPhrase) {
 		this.statusCode = statusCode;
 		this.statusPhrase = statusPhrase;
 	}
@@ -26,5 +25,5 @@ public enum ResponseStateEnum {
 	public void setStatusPhrase(String statusPhrase) {
 		this.statusPhrase = statusPhrase;
 	}
-	
+
 }

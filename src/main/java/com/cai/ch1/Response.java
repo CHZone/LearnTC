@@ -1,4 +1,4 @@
-package com.cai.learntc.server;
+package com.cai.ch1;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,23 +35,18 @@ public class Response {
 				}
 			} else {
 				sendHead(ResponseStateEnum.FILE_NOT_FOUND);
-				String errorMessage = "<html>"
-						+ "<head>"
-						+ "</head>"
-						+ "<body>"
-						+ "<h1>File Not Found</h1>"
-						+ "</body>"
+				String errorMessage = "<html>" + "<head>" + "</head>" + "<body>" + "<h1>File Not Found</h1>" + "</body>"
 						+ "</html>";
 				outputStream.write(errorMessage.getBytes());
 			}
-//			outputStream.flush();
+			// outputStream.flush();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		} finally {
 			try {
 				if (input != null) {
 					input.close();
-//					outputStream.close();// 漏了这句导致response数据没有发出去。
+					// outputStream.close();// 漏了这句导致response数据没有发出去。
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -61,21 +56,16 @@ public class Response {
 
 	}
 
-	private String getGMTDateTime(){
+	private String getGMTDateTime() {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 		Date curDate = new Date();
 		return sdf.format(curDate);
 	}
-	
-	private void sendHead(ResponseStateEnum statusEnum ) {
-		String header = "HTTP/1.1 "
-				+ statusEnum.getStatusCode()
-				+ " "+ statusEnum.getStatusPhrase()
-				+ "\r\n"
-				+ "Server: tomedog\r\n" 
-				+ "Date: "+getGMTDateTime()+"\r\n"
-				+ "Content-Type: text/html;charset=UTF-8\r\n" 
-				+"\r\n";
+
+	private void sendHead(ResponseStateEnum statusEnum) {
+		String header = "HTTP/1.1 " + statusEnum.getStatusCode() + " " + statusEnum.getStatusPhrase() + "\r\n"
+				+ "Server: tomedog\r\n" + "Date: " + getGMTDateTime() + "\r\n"
+				+ "Content-Type: text/html;charset=UTF-8\r\n" + "\r\n";
 		try {
 			outputStream.write(header.getBytes());
 		} catch (IOException e) {
